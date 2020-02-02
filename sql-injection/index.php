@@ -6,13 +6,23 @@ $db = 'sql_injection';
 $host = 'localhost';
 $port = 8889;
 
+// error_reporting(0);
+
+ini_set('display_errors', 'Off');
+
+// phpinfo();
+
 $con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
 if (isset($_POST['email'])) {
 
     $email = $_POST['email'];
     
-    $userQuery = $con->query("SELECT * FROM users WHERE email = '{$email}'");
+    $userQuery = $con->prepare("SELECT * FROM users WHERE email = :email");
+
+    $userQuery->execute([
+        'email' => $email
+    ]);
 
     if ($userQuery->rowCount()) {
         echo "WE FOUND A USER";
