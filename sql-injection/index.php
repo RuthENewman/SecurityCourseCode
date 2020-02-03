@@ -8,7 +8,7 @@ $port = 8889;
 
 // error_reporting(0);
 
-ini_set('display_errors', 'Off');
+// ini_set('display_errors', 'Off');
 
 // phpinfo();
 

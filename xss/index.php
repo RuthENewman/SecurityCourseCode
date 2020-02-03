@@ -8,6 +8,10 @@ $port = 8889;
 
 $con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
+$commentsObject = $con->query("SELECT * FROM comments");
+
+$commentsObject->setFetchMode(PDO::FETCH_OBJ);
+
 if(isset($_POST['submit'])) {
     $title = $_POST['title'];
     $content = $_POST['content'];
@@ -50,22 +54,20 @@ if(isset($_POST['submit'])) {
         <input type="submit" name="submit">
     </form>
 
-    <?php foreach($comments as $comment): ?>
-
-    <?php endforeach; ?>
-
     <table class="table">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Content</th>
-                <th>Email</th>
             </tr>
         </thead>
         <tbody>
-            <td>Test title</td>
-            <td>Adding some interesting content here</td>
-            <td>fake+email@testaddress.com</td>
+            <?php while ($comment = $commentsObject->fetch()) {?>
+              <tr>
+                <td><?php echo $comment->title; ?></td>
+                <td><?php echo $comment->content;?></td>
+             </tr>
+            <?php } ?>
         </tbody>
     </table>
 
