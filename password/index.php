@@ -10,14 +10,18 @@ $con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
 if (isset($_POST['submit'])) {
     $email = trim($_POST['email']);
-    
-    $userQuery = $con->prepare("SELECT * FROM users WHERE email = :email");
+    $name = trim($_POST['name']);
+    $password = trim($_POST['password']);
 
-    $userQuery->execute([
-        'email' => $email
+    $insertQuery = $con->prepare("INSERT INTO users(name, email, password) VALUES(:name, :email, :password)");
+    
+    $insertQuery->execute([
+        'name' => $name, 
+        'email' => $email,
+        'password' => password_hash($password, PASSWORD_BCRYPT, [12])
     ]);
 
-    if ($userQuery->rowCount()) {
+    if ($insertQuery->rowCount()) {
         echo "WE FOUND A USER";
     }
 }
@@ -35,6 +39,10 @@ if (isset($_POST['submit'])) {
         <div class="col-sm-6 col-sm-offset-3">
             <form action="" method="post" autocomplete="off">
                 <h2>Login</h2>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control"/>
+                </div>
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" class="form-control"/>
