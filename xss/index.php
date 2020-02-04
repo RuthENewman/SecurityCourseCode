@@ -1,5 +1,8 @@
 <?php
 
+$date = new DateTime('+2 days');
+setcookie('session', 'test', $date->getTimestamp());
+
 $user = 'root';
 $password = 'root';
 $db = 'xss';
