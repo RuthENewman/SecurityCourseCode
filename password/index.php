@@ -13,17 +13,29 @@ if (isset($_POST['submit'])) {
     $name = trim($_POST['name']);
     $password = trim($_POST['password']);
 
-    $insertQuery = $con->prepare("INSERT INTO users(name, email, password) VALUES(:name, :email, :password)");
+    // $insertQuery = $con->prepare("INSERT INTO users(name, email, password) VALUES(:name, :email, :password)");
     
-    $insertQuery->execute([
-        'name' => $name, 
-        'email' => $email,
-        'password' => password_hash($password, PASSWORD_BCRYPT, [12])
+    // $insertQuery->execute([
+    //     'name' => $name, 
+    //     'email' => $email,
+    //     'password' => password_hash($password, PASSWORD_BCRYPT, [12])
+    // ]);
+
+    $userQuery = $con->prepare("SELECT * FROM users WHERE name = :name");
+
+    $userQuery->execute([
+        'name' => $name
     ]);
 
-    if ($insertQuery->rowCount()) {
-        echo "WE FOUND A USER";
+    $user = $userQuery->fetch(PDO::FETCH_OBJ);
+    $db_password = $user->password();
+
+    if(password_verify($password, $db_password)) {
+        echo "<p class='bg-success'>Logged in</p>";
+    } else {
+        echo "<p class='bg-danger'>Username or password entered incorrectly</p>";
     }
+
 }
 
 ?>
