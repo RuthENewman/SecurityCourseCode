@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     ]);
 
     $user = $userQuery->fetch(PDO::FETCH_OBJ);
-    $db_password = $user->password();
+    $db_password = $user->password;
 
     if(password_verify($password, $db_password)) {
         echo "<p class='bg-success'>Logged in</p>";
