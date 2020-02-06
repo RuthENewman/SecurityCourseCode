@@ -13,14 +13,6 @@ if (isset($_POST['submit'])) {
     $name = trim($_POST['name']);
     $password = trim($_POST['password']);
 
-    // $insertQuery = $con->prepare("INSERT INTO users(name, email, password) VALUES(:name, :email, :password)");
-    
-    // $insertQuery->execute([
-    //     'name' => $name, 
-    //     'email' => $email,
-    //     'password' => password_hash($password, PASSWORD_BCRYPT, [12])
-    // ]);
-
     $userQuery = $con->prepare("SELECT * FROM users WHERE name = :name");
 
     $userQuery->execute([
@@ -44,7 +36,7 @@ if (isset($_POST['submit'])) {
 <html lang=en>
     <head>
         <meta charset="utf-8">
-        <title>Password hashing</title>
+        <title>Login</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     </head>
     <body>
