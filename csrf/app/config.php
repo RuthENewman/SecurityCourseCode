@@ -3,7 +3,13 @@ session_start();
 
 $_SESSION['name'] = 'Ruth Newman';
 
-$con = new PDO('mysql:host=127.0.0.1;dbname=sql_injection', 'root', 'root');
+$user = 'root';
+$password = 'root';
+$db = 'sql_injection';
+$host = 'localhost';
+$port = 8889;
+
+$con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
