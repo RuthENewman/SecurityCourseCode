@@ -1,45 +1,24 @@
 <?php 
 
-$user = 'root';
-$password = 'root';
-$db = 'sql_injection';
-$host = 'localhost';
-$port = 8889;
+    $user = 'root';
+    $password = 'root';
+    $db = 'sql_injection';
+    $host = 'localhost';
+    $port = 8889;
 
-// error_reporting(0);
+    $con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
-// ini_set('display_errors', 'Off');
+    if (isset($_POST['email'])) {
+        $email = $_POST['email']; 
+        $userQuery = $con->prepare("SELECT * FROM users WHERE email = :email");
+        $userQuery->execute([
+            'email' => $email
+        ]);
 
-// phpinfo();
-
-$con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-
-if (isset($_POST['email'])) {
-
-    $email = $_POST['email'];
-    
-    $userQuery = $con->prepare("SELECT * FROM users WHERE email = :email");
-
-    $userQuery->execute([
-        'email' => $email
-    ]);
-
-    if ($userQuery->rowCount()) {
-        echo "WE FOUND A USER";
+        if ($userQuery->rowCount()) {
+            echo "We found a user";
+        }
     }
-}
-
-
-
-// $link = mysqli_init();
-// $success = mysqli_real_connect(
-//    $link,
-//    $host,
-//    $user,
-//    $password,
-//    $db,
-//    $port
-// );
 
 ?>
 

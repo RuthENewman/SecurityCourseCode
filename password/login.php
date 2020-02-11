@@ -1,35 +1,33 @@
 <?php 
 
-$user = 'root';
-$password = 'root';
-$db = 'sql_injection';
-$host = 'localhost';
-$port = 8889;
+    $user = 'root';
+    $password = 'root';
+    $db = 'sql_injection';
+    $host = 'localhost';
+    $port = 8889;
 
-$con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+    $con = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
-if (isset($_POST['submit'])) {
-    $email = trim($_POST['email']);
-    $name = trim($_POST['name']);
-    $password = trim($_POST['password']);
+    if (isset($_POST['submit'])) {
+        $email = trim($_POST['email']);
+        $name = trim($_POST['name']);
+        $password = trim($_POST['password']);
 
-    $userQuery = $con->prepare("SELECT * FROM users WHERE name = :name");
+        $userQuery = $con->prepare("SELECT * FROM users WHERE name = :name");
 
-    $userQuery->execute([
-        'name' => $name
-    ]);
+        $userQuery->execute([
+            'name' => $name
+        ]);
 
-    $user = $userQuery->fetch(PDO::FETCH_OBJ);
-    $db_password = $user->password;
+        $user = $userQuery->fetch(PDO::FETCH_OBJ);
+        $db_password = $user->password;
 
-    if(password_verify($password, $db_password)) {
-        echo "<p class='bg-success'>Logged in</p>";
-    } else {
-        echo "<p class='bg-danger'>Username or password entered incorrectly</p>";
+        if (password_verify($password, $db_password)) {
+            echo "<p class='bg-success'>Logged in</p>";
+        } else {
+            echo "<p class='bg-danger'>Username or password entered incorrectly</p>";
+        }
     }
-
-}
-
 ?>
 
 <!doctype html>
